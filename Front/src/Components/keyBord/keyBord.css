@@ -1,11 +1,14 @@
 .container {
   /* background-color:rgb(117, 115, 115); */
-  width: 320px;
+  min-width: 250px;
+  height: 500px;
   padding: 20px;
   margin: 30px auto;
-  height: 70vh;
   text-align: center;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+  scale: 1.1;
 }
 .popup {
   position: fixed;
@@ -25,26 +28,27 @@
   justify-content: space-around;
   height: 100%;
   width: max-content;
-  margin-left:auto ;
+  margin-left: auto;
 }
 .x {
   margin-left: auto;
   cursor: pointer;
   height: fit-content;
- padding: 0.1em;
+  padding: 0.1em;
 }
-.submit-contact{
+.submit-contact {
   background-color: grey;
   color: aliceblue;
   border-radius: 15px;
 }
 
 #outputPhone {
+  height: 60px;
   font-family: "Exo";
   font-size: 2rem;
-  height: 60px;
   font-weight: bold;
   color: #1976d2;
+  flex: 1;
 }
 
 .row {
@@ -53,6 +57,7 @@
   clear: both;
   text-align: center;
   font-family: "Exo";
+  display: flex;
 }
 
 .digit,
@@ -62,6 +67,7 @@
   margin: 10px;
   width: 30px;
   cursor: pointer;
+  flex: 1;
 }
 
 .sub {
@@ -70,7 +76,6 @@
 }
 
 #call {
-  /* display: inline-block; */
   background-color: #66bb6a;
   padding: 4px 30px;
   margin: 10px;
@@ -78,6 +83,8 @@
   border-radius: 4px;
   float: left;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .botrow {
@@ -86,6 +93,7 @@
   clear: both;
   text-align: center;
   font-family: "Exo";
+  display: flex;
 }
 
 .digit:active,

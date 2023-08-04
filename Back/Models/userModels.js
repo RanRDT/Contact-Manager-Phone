@@ -6,10 +6,11 @@ const ContactSchema={
     email:{type:String}
 }
 
+
 const UserSchema=new mongoose.Schema({
     userName:{type: String,require:true,unique:true},
-    contact:[ContactSchema]
+    contact:[ContactSchema],
+    lastCall:[ContactSchema]
 
 })
 module.exports=mongoose.model("user",UserSchema);
-// module.exports=mongoose.model("Contact",ContactSchema);
