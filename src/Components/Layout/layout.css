@@ -1,20 +1,57 @@
-.layout{
-height: 100vh;
-display: flex;
-flex-direction: column;
+.layout {
+  min-height: 100vh;
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+}
+header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.789);
+  max-height: 14vh;
+}
+header img{
+scale: 0.9;
+}
+footer {
+  background-color: rgba(0, 0, 0, 0.789);
+  display: flex;
+  justify-content: space-around;
+  flex: 1;
+  min-height: 10vh;
+}
+.latout-link {
+  align-self: center;
+  text-decoration: none;
+  color: black;
+}
+.layout-link:hover {
+  scale: 1.2;
+  color: beige;
+}
+.serach-bar {
+  display: flex;
+  align-items: center;
+}
 
+
+#layout-icon {
+  scale: 0.5;
+  align-self: center;
 }
-header{
-    display: flex;
-    justify-content:space-around ;
-    background-color: rgba(0, 0, 0, 0.789);
-    height:10px;
+.layout-serach {
+  display: flex;
+  flex-direction: column;
 }
-footer{
-    background-color:  rgba(0, 0, 0, 0.789);
-    display: flex;
-    justify-content:space-around ;
-    height: 500px;
-    flex:1;
-    height: 2px;
+.layout-filter-contacts {
+  position: absolute;
+  width: 50vw;
+  top: 14vh;
+  left: 20vw;
+  list-style-type: none;
+  z-index: 5;
+  background-color: slategray;
+  opacity: 0.9;
+  scale: 1.2;
 }

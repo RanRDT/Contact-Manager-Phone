@@ -1,22 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FiStar, FiPhone, FiChevronLeft, FiPlus } from "react-icons/fi";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./keyBord.css";
 
 const KeyBord = () => {
+  const navigate = useNavigate();
   const [outputPhone, setOutputPhone] = useState("");
-  const [showPlus, setShowPlus] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
-  const [contactInfo, setContactInfo] = useState("");
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
+  const onSubmit = (data) => sendContact(data);
 
-  const onSubmit = (data) => setContactInfo(data);
   const handleDigitClick = (num) => {
     if (outputPhone.length < 11) {
       setOutputPhone((prevOutputPhone) => prevOutputPhone + num.trim());
@@ -43,12 +42,22 @@ const KeyBord = () => {
       console.log("user exisst");
     }
   };
-useEffect(()=>{connect()},[])
-  
+  useEffect(() => {
+    connect();
+  }, []);
 
-  function sendContact(params) {
-    axios.post("http://localhost:3007/contact/addContact", {userName:localStorage.getItem("username"),contact:contactInfo});
+  function sendContact(data) {
+    console.log(data);
+    if (Object.keys(data).length > 0) {
+      axios.post("http://localhost:3007/contact/addContact", {
+        userName: localStorage.getItem("username"),
+        contact: data,
+      });
+    }
+    navigate("/contact");
+    // setRender((prev)=>prev++);
   }
+
   return (
     <div className="container">
       {showPopUp && (
@@ -66,7 +75,7 @@ useEffect(()=>{connect()},[])
                 },
               })}
             />
-            {errors.name && errors.name.message}
+            <span>{errors.name && errors.name.message}</span>
             <label>Phone:</label>
             <input
               type="text"
@@ -80,7 +89,7 @@ useEffect(()=>{connect()},[])
                 },
               })}
             />
-            {errors.phone && errors.phone.message}
+            <span>{errors.phone && errors.phone.message}</span>
             <label>Email:</label>
             <input
               type="email"
@@ -92,8 +101,12 @@ useEffect(()=>{connect()},[])
                 },
               })}
             />
-            {errors.email && errors.email.message}
-            <input type="submit" value="Add Contact " className="submit-contact" onClick={()=>sendContact()}/>
+            <span>{errors.email && errors.email.message}</span>
+            <input
+              type="submit"
+              value="Add Contact "
+              className="submit-contact"
+            />
           </form>
           <div className="x" onClick={() => setShowPopUp(!showPopUp)}>
             <svg
@@ -162,7 +175,13 @@ useEffect(()=>{connect()},[])
         ) : (
           <div className="icon dig"></div>
         )}
-        <div id="call" onClick={handleCallClick}>
+        <div
+          id="call"
+          onClick={() => {
+            let telURL = `tel:${outputPhone}`;
+            <a href={telURL}></a>
+          }}
+        >
           <FiPhone />
         </div>
         <div className="icon dig" onClick={handleBackspaceClick}>
