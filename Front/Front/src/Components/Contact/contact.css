@@ -2,20 +2,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4em;
+  gap: 0.5em;
   max-width:100vw ;
   
 }
 .contact-one-item {
   font-size: larger;
   display: flex;
+  
   align-items: center;
   border-radius: 15px;
   background-color: grey;
   width: 80vw;
   justify-content: space-around;
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
 }
 .contact-personal-info{
   width: 50%;

@@ -43,9 +43,6 @@
 }
 
 #outputPhone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 60px;
   font-family: "Exo";
   font-size: 2rem;
