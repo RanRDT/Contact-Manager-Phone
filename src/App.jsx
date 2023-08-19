@@ -9,11 +9,15 @@ import "./App.css";
 
 function App() {
   function handleCallClickContact(num) {
-    axios.post("http://localhost:3007/user/addToLastCall", {
+    const isLocalhost = window.location.hostname === "localhost";
+    const renderBackendUrl = "https://back-contact.onrender.com";
+    const baseUrl = isLocalhost ? "http://localhost:3007" : renderBackendUrl;
+  
+    axios.post(`${baseUrl}/user/addToLastCall`, {
       userName: localStorage.getItem("username"),
       idContact: num,
     });
-  };
+  }
   return (
     <>
       <Routes>

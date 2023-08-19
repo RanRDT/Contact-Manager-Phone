@@ -29,34 +29,52 @@ const KeyBord = () => {
   const handleCallClick = () => {};
 
   const connect = (params) => {
+    const isLocalhost = window.location.hostname === "localhost";
+    const renderBackendUrl = "https://backend-contact.onrender.com";
+    const baseUrl = isLocalhost ? "http://localhost:3007" : renderBackendUrl;
     const randomUserName = Math.random();
-
+  
     if (localStorage.getItem("connect") === null) {
-      axios.post("http://localhost:3007/user/creat", {
+      axios.post(`${baseUrl}/user/create`, {
         userName: randomUserName,
         contact: [],
+      })
+      .then((response) => {
+        localStorage.setItem("connect", true);
+        localStorage.setItem("username", randomUserName);
+      })
+      .catch((error) => {
+        console.error("Error creating user:", error);
       });
-      localStorage.setItem("connect", true);
-      localStorage.setItem("username", randomUserName);
     } else {
-      console.log("user exisst");
+      console.log("User already exists");
     }
   };
+  
   useEffect(() => {
     connect();
   }, []);
 
   function sendContact(data) {
     console.log(data);
+    const isLocalhost = window.location.hostname === "localhost";
+    const renderBackendUrl = "https://backend-contact.onrender.com";
+    const baseUrl = isLocalhost ? "http://localhost:3007" : renderBackendUrl;
+  
     if (Object.keys(data).length > 0) {
-      axios.post("http://localhost:3007/contact/addContact", {
+      axios.post(`${baseUrl}/contact/addContact`, {
         userName: localStorage.getItem("username"),
         contact: data,
+      })
+      .then(() => {
+        navigate("/contact");
+      })
+      .catch((error) => {
+        console.error("Error adding contact:", error);
       });
     }
-    navigate("/contact");
-    // setRender((prev)=>prev++);
   }
+  
 
   return (
     <div className="container">

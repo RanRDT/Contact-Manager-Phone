@@ -15,15 +15,19 @@ const Layout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const isLocalhost = window.location.hostname === "localhost";
+    const renderBackendUrl = "https://back-contact.onrender.com";
+    const baseUrl = isLocalhost ? "http://localhost:3007" : renderBackendUrl;
+  
     axios
-      .get("http://localhost:3007/contact/getContacts", {
+      .get(`${baseUrl}/contact/getContacts`, {
         headers: { username },
       })
       .then((response) => {
-        setContacts(response.data);  
-        
+        setContacts(response.data);
       });
   }, []);
+  
   function handelSearch(searchInput) {
     console.log(contacts);
     console.log(searchInput);

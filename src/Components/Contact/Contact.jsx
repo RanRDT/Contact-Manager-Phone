@@ -9,25 +9,41 @@ const Contact = ({handleCallClickContact}) => {
   const username = localStorage.getItem("username");
   // const [contacts, setContacts]=useState()
   useEffect(() => {
+    const isLocalhost = window.location.hostname === "localhost";
+    const renderBackendUrl = "https://backend-contact.onrender.com";
+    const baseUrl = isLocalhost ? "http://localhost:3007" : renderBackendUrl;
+  
     axios
-      .get("http://localhost:3007/contact/getContacts", {
-        headers: { username },
+      .get(`${baseUrl}/contact/getContacts`, {
+        headers: { "username": localStorage.getItem("username") },
       })
       .then((response) => {
         setFilterContacts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error retrieving contacts:", error);
       });
-    }, []);
+  }, []);
+  
     
-    async function handelDeleteContact(name) {
-      await axios
-      .delete("http://localhost:3007/contact/deleteContact", {
+  async function handelDeleteContact(name) {
+    const isLocalhost = window.location.hostname === "localhost";
+    const renderBackendUrl = "https://backend-contact.onrender.com";
+    const baseUrl = isLocalhost ? "http://localhost:3007" : renderBackendUrl;
+  
+    try {
+      const response = await axios.delete(`${baseUrl}/contact/deleteContact`, {
         params: {
           username: localStorage.getItem("username"),
           contactName: name,
         },
-      })
-      .then((res) => setFilterContacts(res.data.contact));
+      });
+      setFilterContacts(response.data.contact);
+    } catch (error) {
+      console.error("Error deleting contact:", error);
     }
+  }
+  
     
     return (
       <div className="contact-main">
