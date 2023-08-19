@@ -20,7 +20,8 @@ const Layout = () => {
         headers: { username },
       })
       .then((response) => {
-        setContacts(response.data);
+        setContacts(response.data);  
+        
       });
   }, []);
   function handelSearch(searchInput) {
