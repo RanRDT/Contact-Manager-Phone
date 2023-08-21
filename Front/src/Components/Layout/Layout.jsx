@@ -12,10 +12,12 @@ const Layout = () => {
   const [contacts, setContacts] = useState();
   const [showSearchBar, setShowSearchBar] = useState(false);
   const username = localStorage.getItem("username");
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
 
   useEffect(() => {
     const isLocalhost = window.location.hostname === "localhost";
+    // import.meta.env.DEV
+    console.log(isLocalhost);
     const renderBackendUrl = "https://back-contact.onrender.com";
     const baseUrl = isLocalhost ? "http://localhost:3007" : renderBackendUrl;
   
