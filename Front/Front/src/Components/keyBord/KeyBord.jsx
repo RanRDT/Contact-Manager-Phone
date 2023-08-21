@@ -1,21 +1,22 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { FiStar, FiPhone, FiChevronLeft, FiPlus } from "react-icons/fi";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./keyBord.css";
 
 const KeyBord = () => {
-  const navigate = useNavigate();
   const [outputPhone, setOutputPhone] = useState("");
+  const [showPlus, setShowPlus] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
+  const [contactInfo, setContactInfo] = useState("");
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => sendContact(data);
 
+  const onSubmit = (data) => setContactInfo(data);
   const handleDigitClick = (num) => {
     if (outputPhone.length < 11) {
       setOutputPhone((prevOutputPhone) => prevOutputPhone + num.trim());
@@ -29,53 +30,25 @@ const KeyBord = () => {
   const handleCallClick = () => {};
 
   const connect = (params) => {
-    const isLocalhost = window.location.hostname === "localhost";
-    const renderBackendUrl = "https://backend-contact.onrender.com";
-    const baseUrl = isLocalhost ? "http://localhost:3007" : renderBackendUrl;
     const randomUserName = Math.random();
-  
+
     if (localStorage.getItem("connect") === null) {
-      axios.post(`${baseUrl}/user/create`, {
+      axios.post("http://localhost:3007/user/creat", {
         userName: randomUserName,
         contact: [],
-      })
-      .then((response) => {
-        localStorage.setItem("connect", true);
-        localStorage.setItem("username", randomUserName);
-      })
-      .catch((error) => {
-        console.error("Error creating user:", error);
       });
+      localStorage.setItem("connect", true);
+      localStorage.setItem("username", randomUserName);
     } else {
-      console.log("User already exists");
+      console.log("user exisst");
     }
   };
+useEffect(()=>{connect()},[])
   
-  useEffect(() => {
-    connect();
-  }, []);
 
-  function sendContact(data) {
-    console.log(data);
-    const isLocalhost = window.location.hostname === "localhost";
-    const renderBackendUrl = "https://backend-contact.onrender.com";
-    const baseUrl = isLocalhost ? "http://localhost:3007" : renderBackendUrl;
-  
-    if (Object.keys(data).length > 0) {
-      axios.post(`${baseUrl}/contact/addContact`, {
-        userName: localStorage.getItem("username"),
-        contact: data,
-      })
-      .then(() => {
-        navigate("/contact");
-      })
-      .catch((error) => {
-        console.error("Error adding contact:", error);
-      });
-    }
+  function sendContact(params) {
+    axios.post("http://localhost:3007/contact/addContact", {userName:localStorage.getItem("username"),contact:contactInfo});
   }
-  
-
   return (
     <div className="container">
       {showPopUp && (
@@ -93,7 +66,7 @@ const KeyBord = () => {
                 },
               })}
             />
-            <span>{errors.name && errors.name.message}</span>
+            {errors.name && errors.name.message}
             <label>Phone:</label>
             <input
               type="text"
@@ -107,7 +80,7 @@ const KeyBord = () => {
                 },
               })}
             />
-            <span>{errors.phone && errors.phone.message}</span>
+            {errors.phone && errors.phone.message}
             <label>Email:</label>
             <input
               type="email"
@@ -119,12 +92,8 @@ const KeyBord = () => {
                 },
               })}
             />
-            <span>{errors.email && errors.email.message}</span>
-            <input
-              type="submit"
-              value="Add Contact "
-              className="submit-contact"
-            />
+            {errors.email && errors.email.message}
+            <input type="submit" value="Add Contact " className="submit-contact" onClick={()=>sendContact()}/>
           </form>
           <div className="x" onClick={() => setShowPopUp(!showPopUp)}>
             <svg
@@ -193,13 +162,7 @@ const KeyBord = () => {
         ) : (
           <div className="icon dig"></div>
         )}
-        <div
-          id="call"
-          onClick={() => {
-            let telURL = `tel:${outputPhone}`;
-            <a href={telURL}></a>
-          }}
-        >
+        <div id="call" onClick={handleCallClick}>
           <FiPhone />
         </div>
         <div className="icon dig" onClick={handleBackspaceClick}>

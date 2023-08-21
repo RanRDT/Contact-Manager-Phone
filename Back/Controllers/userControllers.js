@@ -19,30 +19,50 @@ exports.addToLastCall = async (req, res) => {
     const choosnContact = User.contact[req.body.idContact];
     const addFoundContact = await user.findOneAndUpdate(
       { userName: req.body.userName },
-      { $push: { lastCall: choosnContact } }
+      {
+        $push: {
+          lastCall: {
+            $each: [choosnContact],
+            $position: 0,
+          },
+        },
+      }
     );
     const newLastcall = addFoundContact.lastCall;
-    res
-      .status(200)
-      .json({
-        message: "add to last calls susscfuly",
-        newLastcall: newLastcall,
-      });
+    res.status(200).json({
+      message: "add to last calls susscfuly",
+      newLastcall: newLastcall,
+    });
   } catch (err) {
-    res.status(500).json({ message: "faild to add to last call", error: err });
+    res
+      .status(500)
+      .json({ message: "faild to add to last call", error: err.message });
   }
 };
 
 exports.getLastCall = async (req, res) => {
   try {
-    const founduser = await user.findOne({userName: req.headers.username});
+    const founduser = await user.findOne({ userName: req.headers.username });
     if (!founduser) {
-      return res.status(404).json({message:"User not found"})
-    };
-    const last15Call=founduser.lastCall.slice(-15);
+      return res.status(404).json({ message: "User not found" });
+    }
+    const last15Call = founduser.lastCall.slice(-15);
     console.log(last15Call);
     res.status(200).json(last15Call);
   } catch (err) {
-    res.status(500).json(err ); 
+    res.status(500).json(err.message);
+  }
+};
+exports.deleteLastCall = async (req, res) => {
+  try {
+    console.log(req.query);
+    const query = { userName: req.query.username };
+    const update = { $pull: { lastCall: { name: req.query.lastCallName } } };
+    const options = { new: true };
+    const findUser = await user.findOneAndUpdate(query, update, options);
+    console.log(findUser);
+    res.status(200).json(findUser);
+  } catch (err) {
+    res.status(500).json(err.message);
   }
 };

@@ -2,7 +2,7 @@ const mongoose=require("mongoose")
 
 const ContactSchema={
     name:{type:String,require:true},
-    phone:{type:String,require:true,unique:true},
+    phone:{type:String,require:true},
     email:{type:String}
 }
 
