@@ -12,7 +12,7 @@ const Layout = () => {
   const [contacts, setContacts] = useState();
   const [showSearchBar, setShowSearchBar] = useState(false);
   const username = localStorage.getItem("username");
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
 
   useEffect(() => {
     const isLocalhost = window.location.hostname === "localhost";
