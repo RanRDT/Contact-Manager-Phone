@@ -16,8 +16,8 @@ const Layout = () => {
 
   useEffect(() => {
     const isLocalhost = window.location.hostname === "localhost";
-    // import.meta.env.DEV
     console.log(isLocalhost);
+    // import.meta.env.DEV
     const renderBackendUrl = "https://back-contact.onrender.com";
     const baseUrl = isLocalhost ? "http://localhost:3007" : renderBackendUrl;
   
